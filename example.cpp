@@ -1,12 +1,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <stdio.h>
+#include <cmath>
 #include "libScePad.h"
 
 int main(int argc, char* argv[]) {
 	int PadHandle = 0;
 
-	// Initialize ScePad
 	if (scePadInit() != SCE_OK)
 		return -1;
 
@@ -20,10 +20,11 @@ int main(int argc, char* argv[]) {
 	fwrite("\x1B[2J", 4, 1, stdout);
 
 	s_SceEffectData test {};
+	s_SceLightBar color = {0, 0, 0};
 
 	while (1) {
 		s_ScePadData data;
-		memset(&data, 0xFE, sizeof(data));
+		ZeroMemory(&data, sizeof(data));
 		fwrite("\x1B[H", 4, 1, stdout);
 
 		if (scePadReadState(PadHandle, &data) == SCE_OK) {
@@ -67,11 +68,20 @@ int main(int argc, char* argv[]) {
 
 			if (data.Buttons & SCE_BUTTON_OPTIONS)
 				break;
+
+			static const float tau = acosf(-1.0f) * 2.f;
+			static float timer = 0.0f;
+			color.R = sqrtf(sinf(timer * tau) * 0.5f + 0.5f) * 0xFF;
+			color.G = sqrtf(sinf((timer + 0.666f) * tau) * 0.5f + 0.5f) * 0xFF;
+			color.B = sqrtf(sinf((timer + 0.333f) * tau) * 0.5f + 0.5f) * 0xFF;
+			scePadSetLightBar(PadHandle, &color);
+			timer += 0.032f;
 		}
 
 		Sleep(200);
 	}
 
+	scePadResetLightBar(PadHandle);
 	scePadClose(PadHandle);
 
 	return 0;

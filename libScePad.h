@@ -79,7 +79,7 @@ typedef struct {
 } s_SceContainerInfo;
 
 typedef struct {
-	float __Unknown_Float; // Always 44.86 for DualSense idk what the hell it is
+	float __Unknown_Float; // Always 44.86 (for DualSense at least) idk what the hell it is
 	uint16_t __Unknown_Short[2]; // Touchpad resolution X, Y??
 	// The next two bytes always set to 13 for DualSense
 	uint8_t __Unknown_Byte0;
@@ -147,7 +147,7 @@ typedef struct _SceTriggerEffect {
 
 	inline void Disable(void) {
 		Type = SCE_TREFFECT_DISABLED;
-		memset(Data.__Dummy, 0, sizeof(Data.__Dummy));
+		ZeroMemory(Data.__Dummy, sizeof(Data.__Dummy));
 	}
 #endif
 } s_SceTriggerEffect;
