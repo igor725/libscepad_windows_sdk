@@ -3,3 +3,6 @@
 /libScePad.lib
 /example.exe
 /example.obj
+/example.pdb
+/example.ilk
+/vc*.pdb

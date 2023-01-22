@@ -1,0 +1,18 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Run libScePad usage example",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "example.exe",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"console": "integratedTerminal",
+			"preLaunchTask": "Build libScePad usage example"
+		}
+
+	]
+}

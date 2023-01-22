@@ -8,5 +8,5 @@ if not exist libScePad.lib (
 	)
 )
 
-cl /Feexample.exe example.cpp libScePad.lib
+cl /Feexample.exe /Zi /DDEBUG example.cpp libScePad.lib
 exit /b %errorlevel%

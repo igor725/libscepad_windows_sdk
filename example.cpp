@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <stdio.h>
-#include "libscepad.h"
+#include "libScePad.h"
 
 int main(int argc, char* argv[]) {
 	int PadHandle = 0;
@@ -19,20 +19,21 @@ int main(int argc, char* argv[]) {
 	scePadSetParticularMode(true);
 	fwrite("\x1B[2J", 4, 1, stdout);
 
+	s_SceEffectData test {};
+
 	while (1) {
 		s_ScePadData data;
 		memset(&data, 0xFE, sizeof(data));
 		fwrite("\x1B[H", 4, 1, stdout);
 
 		if (scePadReadState(PadHandle, &data) == SCE_OK) {
-			// Mask for buttons
 			printf("Buttons: %08X\n", data.Buttons);
 
-			// Sticks
 			printf("Left stick: %02X %02X\n", data.Sticks.Left.X, data.Sticks.Left.Y);
 			printf("Right stick: %02X %02X\n", data.Sticks.Right.X, data.Sticks.Right.Y);
 
-			printf("L2: %02X, R2: %02X\n", data.Triggers.Left, data.Triggers.Right);
+			int state[2]; scePadGetTriggerEffectState(PadHandle, state);
+			printf("L2: %02X (%02d), R2: %02X (%02d)\n", data.Triggers.Left, state[0], data.Triggers.Right, state[1]);
 
 			printf("%d touches: %05d, %05d, %05d, %05d, %03d, %03d\n",
 				data.Touch.Count,
@@ -52,6 +53,17 @@ int main(int argc, char* argv[]) {
 					udata[0] & 0xFF, udata[1] & 0xFF,
 					udata[2] & 0xFF, udata[3] & 0xFF
 				);
+
+			if (data.Buttons & SCE_BUTTON_L1) {
+				test.Left()->Vibration(3, 4, 8);
+				test.Right()->Weapon(4, 8, 8);
+			} else if (data.Buttons & SCE_BUTTON_R1) {
+				test.Left()->Disable();
+				test.Right()->Disable();
+			}
+
+			if (data.Buttons & (SCE_BUTTON_L1 | SCE_BUTTON_R1))
+				scePadSetTriggerEffect(PadHandle, &test);
 
 			if (data.Buttons & SCE_BUTTON_OPTIONS)
 				break;
