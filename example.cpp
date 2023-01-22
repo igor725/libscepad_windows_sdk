@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 			int state[2]; scePadGetTriggerEffectState(PadHandle, state);
 			printf("L2: %02X (%02d), R2: %02X (%02d)\n", data.Triggers.Left, state[0], data.Triggers.Right, state[1]);
 
-			printf("%d touches: %05d, %05d, %05d, %05d, %03d, %03d\n",
+			printf("%d touches: %d, %d, %d, %d, %d, %d\x1B[K\n",
 				data.Touch.Count,
 				data.Touch.Points[0].X, data.Touch.Points[0].Y,
 				data.Touch.Points[1].X, data.Touch.Points[1].Y,
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 			for (int i = 0; i < sizeof(data.Gyroscope) / sizeof(data.Gyroscope[0]); i++)
 				printf("%02.3f ", data.Gyroscope[i]);
 
-			printf("\nUnknown state fields:\n");
+			printf("\x1B[K\nUnknown state fields:\n");
 			for (auto udata = (char *)&data.__Unknown; udata < (char *)&data + sizeof(data); udata += 4)
 				printf("\t%08d: %02X %02X %02X %02X\n",
 					(int)((intptr_t)udata - (intptr_t)&data),

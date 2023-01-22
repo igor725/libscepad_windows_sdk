@@ -220,6 +220,8 @@ typedef struct {
 
 #ifdef __cplusplus
 extern "C" {
+#else
+#define bool BOOLEAN
 #endif
 
 int scePadClose(int handle);
@@ -237,12 +239,12 @@ int scePadRead(int handle, void* data, int count);
 int scePadReadState(int handle, s_ScePadData* data);
 int scePadResetLightBar(int handle);
 int scePadResetOrientation(int handle);
-int scePadSetAngularVelocityDeadbandState(int handle, char state);
+int scePadSetAngularVelocityDeadbandState(int handle, bool state);
 int scePadSetAudioOutPath(int handle);
 int scePadSetLightBar(int handle, s_SceLightBar* lightdata);
-int scePadSetMotionSensorState(int handle, char state);
+int scePadSetMotionSensorState(int handle, bool state);
 int scePadSetParticularMode(bool);
-int scePadSetTiltCorrectionState(int handle, char state);
+int scePadSetTiltCorrectionState(int handle, bool state);
 int scePadSetTriggerEffect(int handle, s_SceEffectData *data);
 int scePadSetVibration(int handle, char values[2]);
 int scePadSetVibrationMode(int handle, int mode /*Must be set to 2 for some reason*/);
