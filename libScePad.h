@@ -80,7 +80,7 @@ typedef struct {
 
 typedef struct {
 	float __Unknown_Float; // Always 44.86 (for DualSense at least) idk what the hell it is
-	uint16_t __Unknown_Short[2]; // Touchpad resolution X, Y??
+	uint16_t Touchpad_Resolution[2];
 	// The next two bytes always set to 13 for DualSense
 	uint8_t __Unknown_Byte0;
 	uint8_t __Unknown_Byte1;
@@ -235,12 +235,12 @@ int scePadGetTriggerEffectState(int handle, int state[2]);
 int scePadInit(void);
 int scePadIsSupportedAudioFunction(int handle);
 int scePadOpen(int userID, int, int /*unused ints, must be 0*/);
-int scePadRead(int handle, void* data, int count);
-int scePadReadState(int handle, s_ScePadData* data);
+int scePadRead(int handle, s_ScePadData data[/*count*/], int count);
+int scePadReadState(int handle, s_ScePadData *data);
 int scePadResetLightBar(int handle);
 int scePadResetOrientation(int handle);
 int scePadSetAngularVelocityDeadbandState(int handle, bool state);
-int scePadSetAudioOutPath(int handle);
+int scePadSetAudioOutPath(int handle, int);
 int scePadSetLightBar(int handle, s_SceLightBar* lightdata);
 int scePadSetMotionSensorState(int handle, bool state);
 int scePadSetParticularMode(bool);
