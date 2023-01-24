@@ -13,8 +13,16 @@ Updated by github/igor725
 
 #include <stdint.h>
 
-#ifndef LIBSCEPAD_NO_THROW
-#	include <cassert>
+#ifndef __cplusplus
+#	define bool char
+#	ifndef true
+#		define true 1
+#		define false 0
+#	endif
+#else
+#	ifndef LIBSCEPAD_NO_THROW
+#		include <cassert>
+#	endif
 #endif
 
 #if !defined(_WIN32) || !defined(_WIN64)
@@ -147,7 +155,8 @@ typedef struct _SceTriggerEffect {
 
 	inline void Disable(void) {
 		Type = SCE_TREFFECT_DISABLED;
-		ZeroMemory(Data.__Dummy, sizeof(Data.__Dummy));
+		for (char *c = Data.__Dummy; c < &Data.__Dummy[sizeof(Data.__Dummy)]; c++)
+			*c = '\0';
 	}
 #endif
 } s_SceTriggerEffect;
@@ -220,35 +229,33 @@ typedef struct {
 
 #ifdef __cplusplus
 extern "C" {
-#else
-#define bool BOOLEAN
 #endif
 
-int scePadClose(int handle);
-int scePadGetContainerIdInformation(int handle, s_SceContainerInfo *info);
-int scePadGetControllerInformation(int handle, s_ScePadInfo *info);
-int scePadGetControllerType(int handle, int *type);
-int scePadGetHandle(int userID, int, int /*unused ints, must be 0*/);
-int scePadGetJackState(int handle, int state[4]);
+int  scePadClose(int handle);
+int  scePadGetContainerIdInformation(int handle, s_SceContainerInfo *info);
+int  scePadGetControllerInformation(int handle, s_ScePadInfo *info);
+int  scePadGetControllerType(int handle, int *type);
+int  scePadGetHandle(int userID, int, int /*unused ints, must be 0*/);
+int  scePadGetJackState(int handle, int state[4]);
 bool scePadGetParticularMode(void);
-int scePadGetTriggerEffectState(int handle, int state[2]);
-int scePadInit(void);
-int scePadIsSupportedAudioFunction(int handle);
-int scePadOpen(int userID, int, int /*unused ints, must be 0*/);
-int scePadRead(int handle, s_ScePadData data[/*count*/], int count);
-int scePadReadState(int handle, s_ScePadData *data);
-int scePadResetLightBar(int handle);
-int scePadResetOrientation(int handle);
-int scePadSetAngularVelocityDeadbandState(int handle, bool state);
-int scePadSetAudioOutPath(int handle, int);
-int scePadSetLightBar(int handle, s_SceLightBar* lightdata);
-int scePadSetMotionSensorState(int handle, bool state);
-int scePadSetParticularMode(bool);
-int scePadSetTiltCorrectionState(int handle, bool state);
-int scePadSetTriggerEffect(int handle, s_SceEffectData *data);
-int scePadSetVibration(int handle, char values[2]);
-int scePadSetVibrationMode(int handle, int mode /*Must be set to 2 for some reason*/);
-int scePadSetVolumeGain(int handle, void *);
+int  scePadGetTriggerEffectState(int handle, int state[2]);
+int  scePadInit(void);
+int  scePadIsSupportedAudioFunction(int handle);
+int  scePadOpen(int userID, int, int /*unused ints, must be 0*/);
+int  scePadRead(int handle, s_ScePadData data[/*count*/], int count);
+int  scePadReadState(int handle, s_ScePadData *data);
+int  scePadResetLightBar(int handle);
+int  scePadResetOrientation(int handle);
+int  scePadSetAngularVelocityDeadbandState(int handle, bool state);
+int  scePadSetAudioOutPath(int handle, int);
+int  scePadSetLightBar(int handle, s_SceLightBar* lightdata);
+int  scePadSetMotionSensorState(int handle, bool state);
+int  scePadSetParticularMode(bool);
+int  scePadSetTiltCorrectionState(int handle, bool state);
+int  scePadSetTriggerEffect(int handle, s_SceEffectData *data);
+int  scePadSetVibration(int handle, char values[2]);
+int  scePadSetVibrationMode(int handle, int mode /*Must be set to 2 for some reason*/);
+int  scePadSetVolumeGain(int handle, void *);
 
 #ifdef __cplusplus
 }

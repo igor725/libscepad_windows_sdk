@@ -22,9 +22,8 @@ int main(int argc, char* argv[]) {
 	s_SceEffectData test {};
 	s_SceLightBar color = {0, 0, 0};
 
-	while (1) {
+	while (true) {
 		s_ScePadData data;
-		ZeroMemory(&data, sizeof(data));
 		fwrite("\x1B[H", 4, 1, stdout);
 
 		if (scePadReadState(PadHandle, &data) == SCE_OK) {
