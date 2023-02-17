@@ -240,6 +240,7 @@ int  scePadGetJackState(int handle, int state[4]);
 bool scePadGetParticularMode(void);
 int  scePadGetTriggerEffectState(int handle, int state[2]);
 int  scePadInit(void);
+int  scePadIsControllerUpdateRequired(int handle);
 int  scePadIsSupportedAudioFunction(int handle);
 int  scePadOpen(int userID, int, int /*unused ints, must be 0*/);
 int  scePadRead(int handle, s_ScePadData data[/*count*/], int count);

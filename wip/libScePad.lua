@@ -4,7 +4,7 @@ ffi.cdef[[
 	typedef struct {
 		char __Unknown[8192];
 	} s_SceContainerInfo;
-	
+
 	typedef struct {
 		float __Unknown_Float; // Always 44.86 (for DualSense at least) idk what the hell it is
 		uint16_t Touchpad_Resolution[2];
@@ -18,7 +18,7 @@ ffi.cdef[[
 		long long __Unknown_Long_Long;
 		long __Unknown_Long;
 	} s_ScePadInfo;
-	
+
 	typedef struct _SceTriggerEffect {
 		uint32_t Type;
 		char __Offset[4];
