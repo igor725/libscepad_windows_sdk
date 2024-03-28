@@ -42,17 +42,12 @@ int main(int argc, char* argv[]) {
 				data.Touch.Points[0].ID, data.Touch.Points[1].ID
 			);
 
-			printf("Gyroscope data: ");
-			for (int i = 0; i < sizeof(data.Gyroscope) / sizeof(data.Gyroscope[0]); i++)
-				printf("%02.3f ", data.Gyroscope[i]);
+			printf("Gyroscope data: %.3f, %.3f, %.3f, %.3f\x1B[K\n",
+				data.Orientation.X, data.Orientation.Y,
+				data.Orientation.Z, data.Orientation.W
+			);
 
-			printf("\x1B[K\nUnknown state fields:\n");
-			for (auto udata = (char *)&data.__Unknown; udata < (char *)&data + sizeof(data); udata += 4)
-				printf("\t%08d: %02X %02X %02X %02X\n",
-					(int)((intptr_t)udata - (intptr_t)&data),
-					udata[0] & 0xFF, udata[1] & 0xFF,
-					udata[2] & 0xFF, udata[3] & 0xFF
-				);
+			printf("Timestamp: %llu\x1B[K\n", data.Timestamp);
 
 			if (data.Buttons & SCE_BUTTON_L1) {
 				test.Left()->Vibration(3, 4, 8);
